@@ -31,14 +31,23 @@ erreur_terrain lire_terrain(char *nom_fichier, Terrain *t, int *x, int *y)
     return ERREUR_LECTURE_HAUTEUR;
   }
 
-  if (t->hauteur > DIM_MAX || t->hauteur < 0)
+  if (t->hauteur > DIM_MAX)
   {
     return ERREUR_HAUTEUR_INCORRECTE;
   }
-  if (t->largeur > DIM_MAX || t->largeur < 0)
+  if (t->hauteur < 0)
+  {
+    return ERREUR_HAUTEUR_INCORRECTE;
+  }
+  if (t->largeur > DIM_MAX)
   {
     return ERREUR_LARGEUR_INCORRECTE;
   }
+  if (t->largeur < 0)
+  {
+    return ERREUR_LARGEUR_INCORRECTE;
+  }
+
   fscanf(f, "\n");
   int Position_initiale = 0;
 
@@ -50,7 +59,7 @@ erreur_terrain lire_terrain(char *nom_fichier, Terrain *t, int *x, int *y)
     {
       return ERREUR_LIGNE_MANQUANTE;
     }
-    if (strlen(line)-1 > t->largeur)
+    if (strlen(line) - 1 > t->largeur)
     {
       return ERREUR_LIGNE_TROP_LONGUE;
     }
@@ -85,6 +94,7 @@ erreur_terrain lire_terrain(char *nom_fichier, Terrain *t, int *x, int *y)
         break;
       default:
         return ERREUR_CARTACTERE_INCORRECT;
+
         break;
       }
       t->tab[i][j] = c;
