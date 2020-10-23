@@ -19,52 +19,45 @@ erreur_terrain lire_terrain(char *nom_fichier, Terrain *t, int *x, int *y)
 
   // Lecture de la hauteur
   // À compléter
-  fscanf(f, "%d", &t->largeur);
-
-  // Lecture de la largeur
-  // À compléter
-  fscanf(f, "%d", &t->hauteur);
-
-  if (&t->largeur == NULL)
+  if (fscanf(f, "%d", &t->largeur) != 1)
   {
     return ERREUR_LECTURE_LARGEUR;
   }
-  if (&t->hauteur == NULL)
+
+  // Lecture de la largeur
+  // À compléter
+  if (fscanf(f, "%d", &t->hauteur) != 1)
   {
     return ERREUR_LECTURE_HAUTEUR;
   }
-  if (&t->hauteur > DIM_MAX || &t->hauteur < 0)
+
+  if (t->hauteur > DIM_MAX || t->hauteur < 0)
   {
     return ERREUR_HAUTEUR_INCORRECTE;
   }
-  if (&t->largeur > DIM_MAX || &t->largeur < 0)
+  if (t->largeur > DIM_MAX || t->largeur < 0)
   {
     return ERREUR_LARGEUR_INCORRECTE;
   }
-  if (fgets(line, sizeof(line), f) == NULL)
-  {
-    return ERREUR_LIGNE_MANQUANTE;
-  }
-
+  fscanf(f, "\n");
   int Position_initiale = 0;
 
   // Lecture du terrain
   // À compléter
-  for (int i = 0; i <= t->hauteur; i++)
+  for (int i = 0; i < t->hauteur; i++)
   {
-    fgets(line, sizeof(line), f);
+    if (fgets(line, sizeof(line), f) == NULL)
+    {
+      return ERREUR_LIGNE_MANQUANTE;
+    }
+    if (strlen(line)-1 > t->largeur)
+    {
+      return ERREUR_LIGNE_TROP_LONGUE;
+    }
+
     for (int j = 0; j < t->largeur; j++)
     {
       Case c;
-
-      if (strlen(line) > j)
-      {
-        return ERREUR_LIGNE_TROP_LONGUE;
-      }
-      if (strlen(line) < j)
-      {
-        return ERREUR_LIGNE_TROP_COURTE;
-      }
 
       switch (line[j])
       {
@@ -81,7 +74,7 @@ erreur_terrain lire_terrain(char *nom_fichier, Terrain *t, int *x, int *y)
         c = LIBRE;
         if (Position_initiale == 0)
         {
-          *x = i - 1;
+          *x = i;
           *y = j;
           Position_initiale = 1;
         }
@@ -95,6 +88,10 @@ erreur_terrain lire_terrain(char *nom_fichier, Terrain *t, int *x, int *y)
         break;
       }
       t->tab[i][j] = c;
+    }
+    if (strlen(line) < t->largeur)
+    {
+      return ERREUR_LIGNE_TROP_COURTE;
     }
   }
   if (!x || !y)
@@ -135,23 +132,23 @@ int est_case_libre(Terrain t, int x, int y)
 void afficher_terrain(Terrain *t)
 {
   printf("%d ··· %d\n", t->hauteur, t->largeur);
-  for (int i = 1; i <= t->hauteur; i++)
+  for (int i = 0; i < t->hauteur; i++)
   {
     for (int j = 0; j < t->largeur; j++)
     {
+      printf("%c", t->tab[i][j]);
       switch (t->tab[i][j])
       {
-      case 0:
+      case LIBRE:
         printf(".");
         break;
-      case 1:
+      case EAU:
         printf("~");
         break;
-      case 2:
+      case ROCHER:
         printf("#");
         break;
       }
-      printf("%c", t->tab[i][j]);
     }
     printf("\n");
   }
