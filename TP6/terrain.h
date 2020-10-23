@@ -1,7 +1,13 @@
 #ifndef _TERRAIN_H_
 #define _TERRAIN_H_
 
-typedef enum { LIBRE, EAU, ROCHER } Case;;
+typedef enum
+{
+  LIBRE,
+  EAU,
+  ROCHER
+} Case;
+;
 
 #define DIM_MAX 256
 
@@ -9,13 +15,15 @@ typedef enum { LIBRE, EAU, ROCHER } Case;;
 //  1er  indice : abscisse = colonne (colonne de gauche : abscisse = 0)
 //  2ème indice : ordonnée = ligne   (ligne du haut     : ordonnée = 0)
 
-typedef struct {
+typedef struct
+{
   int largeur, hauteur;
   Case tab[DIM_MAX][DIM_MAX];
 } Terrain;
 
-typedef enum { 
-  OK, 
+typedef enum
+{
+  OK,
   ERREUR_FICHIER,
   ERREUR_LECTURE_LARGEUR,
   ERREUR_LARGEUR_INCORRECTE,
@@ -28,7 +36,7 @@ typedef enum {
   ERREUR_POSITION_INITIALE_MANQUANTE,
   ERREUR_POSITION_INITIALE_MULTIPLE,
 } erreur_terrain;
- 
+
 /* Lecture d'un terrain dans un fichier de nom nom_f
    Résultats :
    t le terrain lu
