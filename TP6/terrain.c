@@ -8,7 +8,7 @@
 erreur_terrain lire_terrain(char *nom_fichier, Terrain *t, int *x, int *y)
 {
   FILE *f;
-  char line[DIM_MAX+2];
+  char line[DIM_MAX + 2];
 
   // Ouverture du fichier en lecture
   f = fopen(nom_fichier, "r");
@@ -19,8 +19,8 @@ erreur_terrain lire_terrain(char *nom_fichier, Terrain *t, int *x, int *y)
 
   // Lecture de la hauteur
   // À compléter
-  fscanf(f,"%d", &t->largeur);
-      
+  fscanf(f, "%d", &t->largeur);
+
   // Lecture de la largeur
   // À compléter
   fscanf(f, "%d", &t->hauteur);
@@ -45,22 +45,23 @@ erreur_terrain lire_terrain(char *nom_fichier, Terrain *t, int *x, int *y)
   {
     return ERREUR_LIGNE_MANQUANTE;
   }
-  
-  
+
   int Position_initiale = 0;
 
   // Lecture du terrain
   // À compléter
-  for(int i = 0; i <= t->hauteur; i++){
+  for (int i = 0; i <= t->hauteur; i++)
+  {
     fgets(line, sizeof(line), f);
-    for(int j = 0; j < t->largeur; j++){
+    for (int j = 0; j < t->largeur; j++)
+    {
       Case c;
 
       if (strlen(line) > j)
       {
         return ERREUR_LIGNE_TROP_LONGUE;
       }
-      if (strlen(line)<j)
+      if (strlen(line) < j)
       {
         return ERREUR_LIGNE_TROP_COURTE;
       }
@@ -78,8 +79,9 @@ erreur_terrain lire_terrain(char *nom_fichier, Terrain *t, int *x, int *y)
         break;
       case 'C':
         c = LIBRE;
-        if (Position_initiale == 0){
-          *x = i-1;
+        if (Position_initiale == 0)
+        {
+          *x = i - 1;
           *y = j;
           Position_initiale = 1;
         }
@@ -95,7 +97,8 @@ erreur_terrain lire_terrain(char *nom_fichier, Terrain *t, int *x, int *y)
       t->tab[i][j] = c;
     }
   }
-  if (!x || !y){
+  if (!x || !y)
+  {
     return ERREUR_POSITION_INITIALE_MANQUANTE;
   }
   // Fermeture du fichier
