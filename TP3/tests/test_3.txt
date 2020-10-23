@@ -1,0 +1,10 @@
+Chaine 1 : aaaaaaab
+Chaine 2 : aab
+
+Sortie :
+
+Boite noir 1 : 5
+Boite noir 2 : -1
+Boite noir 3 : 5
+Boite noir 4 : 5
+Boite noir 5 : -1

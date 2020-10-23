@@ -1,0 +1,18 @@
+Exercice 1 :
+
+1. Le programme renvoie les plus grandes valeurs de la séquence donnée en entrée.
+
+2. Le domaine de valeurs valides des entrées sont les nombres entiers. N >=2 [p, d, ...] de longueur N
+
+3.  - la couverture des lignes 14 à 16 nécessite [p, d] tq d > p.
+    - la couverture des lignes 19 à 25 implique N >= 3 tq [1, 2, 3]
+    - la couvertures des entrées nécéssite [..., p, ..., d, ...] tq p>d & [..., d, ..., p, ...] tq d>p
+
+Tests:
+
+N<3 -> N=3 -> N>3 avec :
+            
+            * Série d'entier négatifs
+            * Série d'entier positifs
+            * Série d'entier négatifs et positifs
+            * Série de flottants
