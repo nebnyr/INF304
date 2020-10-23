@@ -29,21 +29,25 @@ erreur_terrain lire_terrain(char *nom_fichier, Terrain *t, int *x, int *y)
   {
     return ERREUR_LECTURE_LARGEUR;
   }
-  else if (&t->hauteur == NULL)
+  if (&t->hauteur == NULL)
   {
     return ERREUR_LECTURE_HAUTEUR;
   }
-  else if (&t->hauteur > DIM_MAX || &t->hauteur < 0)
+  if (&t->hauteur > DIM_MAX || &t->hauteur < 0)
   {
     return ERREUR_HAUTEUR_INCORRECTE;
   }
-  else if (&t->largeur > DIM_MAX || &t->largeur < 0)
+  if (&t->largeur > DIM_MAX || &t->largeur < 0)
   {
     return ERREUR_LARGEUR_INCORRECTE;
   }
+  if (fgets(line, sizeof(line), f) == NULL)
+  {
+    return ERREUR_LIGNE_MANQUANTE;
+  }
   
   
-  
+  int Position_initiale = 0;
 
   // Lecture du terrain
   // À compléter
@@ -56,7 +60,7 @@ erreur_terrain lire_terrain(char *nom_fichier, Terrain *t, int *x, int *y)
       {
         return ERREUR_LIGNE_TROP_LONGUE;
       }
-      else if (strlen(line)<j)
+      if (strlen(line)<j)
       {
         return ERREUR_LIGNE_TROP_COURTE;
       }
@@ -74,15 +78,25 @@ erreur_terrain lire_terrain(char *nom_fichier, Terrain *t, int *x, int *y)
         break;
       case 'C':
         c = LIBRE;
-        *x = i-1;
-        *y = j;
+        if (Position_initiale == 0){
+          *x = i-1;
+          *y = j;
+          Position_initiale = 1;
+        }
+        else
+        {
+          return ERREUR_POSITION_INITIALE_MULTIPLE;
+        }
         break;
       default:
-        return ERREUR_CARTACTERE_INCORRECTE;
+        return ERREUR_CARTACTERE_INCORRECT;
         break;
       }
       t->tab[i][j] = c;
     }
+  }
+  if (!x || !y){
+    return ERREUR_POSITION_INITIALE_MANQUANTE;
   }
   // Fermeture du fichier
   fclose(f);
@@ -122,7 +136,7 @@ void afficher_terrain(Terrain *t)
   {
     for (int j = 0; j < t->largeur; j++)
     {
-      /* switch (t->tab[i][j])
+      switch (t->tab[i][j])
       {
       case 0:
         printf(".");
@@ -133,7 +147,7 @@ void afficher_terrain(Terrain *t)
       case 2:
         printf("#");
         break;
-      } */
+      }
       printf("%c", t->tab[i][j]);
     }
     printf("\n");
